@@ -17,13 +17,31 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
+    const fileInput = this.document.querySelector(`input[data-testid="file"]`);
+    const file = fileInput.files[0];
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
     formData.append('email', email)
+
+    // Empêcher d'uploader un fichier de type différent de .jpg, .jpeg, .png
+    if (!fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg") && !fileName.endsWith(".png")) {
+      const errorMsg = document.createElement('div');
+      errorMsg.classList.add('error-message');
+      errorMsg.textContent = "Le fichier doit être de type .jpg, .jpeg ou .png";
+      errorMsg.style.color = "red"
+      fileInput.parentNode.insertBefore(errorMsg, fileInput.nextSibling);
+      fileInput.value = '';
+      console.log("error")
+      return;
+    } else {
+      const errorMsg = document.querySelector('.error-message');
+      if (errorMsg) {
+        errorMsg.parentNode.removeChild(errorMsg);
+      }
+    }
 
     this.store
       .bills()
@@ -34,7 +52,6 @@ export default class NewBill {
         }
       })
       .then(({fileUrl, key}) => {
-        console.log(fileUrl)
         this.billId = key
         this.fileUrl = fileUrl
         this.fileName = fileName

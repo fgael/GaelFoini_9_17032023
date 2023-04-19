@@ -146,7 +146,8 @@ export default class {
     }
 
     bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      // detache tous les evenements lié au bouton avec .off() avant d'y attacher un nouvel evenement
+      $(`#open-bill${bill.id}`).off().click((e) => this.handleEditTicket(e, bill, bills))
     })
 
     return bills

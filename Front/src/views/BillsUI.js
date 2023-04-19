@@ -18,7 +18,7 @@ const row = (bill) => {
     </tr>
     `)
   }
-
+  
 const rows = (data) => {
   return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
 }
