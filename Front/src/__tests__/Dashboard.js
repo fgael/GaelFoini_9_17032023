@@ -230,7 +230,6 @@ describe('Given I am connected as Admin and I am on Dashboard page and I clicked
 
       const handleClickIconEye = jest.fn(dashboard.handleClickIconEye)
       const eye = screen.getByTestId('icon-eye-d')
-      console.log(eye)
       eye.addEventListener('click', handleClickIconEye)
       userEvent.click(eye)
       expect(handleClickIconEye).toHaveBeenCalled()

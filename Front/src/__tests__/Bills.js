@@ -4,17 +4,12 @@
 
 import { screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
-
 import BillsUI from "../views/BillsUI.js"
 import Bills from "../containers/Bills.js"
-
 import { ROUTES, ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
-
 import mockStore from "../__mocks__/store.js";
-
 import { bills } from "../fixtures/bills.js"
-
 import router from "../app/Router.js";
 
 jest.mock("../app/Store", () => mockStore)
@@ -113,23 +108,22 @@ describe("Given I am connected as an employee", () => {
           document.body.innerHTML = ROUTES({ pathname });
       };
 
-      const store = null
       const bill = new Bills({
-        document, onNavigate, store, bills, localStorage: window.localStorage
+        document, onNavigate, store: null, bills, localStorage: window.localStorage
       });
 
-      const handleClickIconEye = jest.fn(bill.handleClickIconEye)
-      const eyeIcon = screen.getAllByTestId("icon-eye");
-
-      eyeIcon.forEach(icon => {
-        icon.addEventListener('click', () => handleClickIconEye(icon))
-      })
-
-      userEvent.click(eyeIcon[0]);
-      expect(handleClickIconEye).toHaveBeenCalled();
-
-      const modale = document.getElementById("modaleFile");
-      expect(modale).toBeTruthy();
+      const handleClickIconEye = jest.fn(
+        (icon) => bill.handleClickIconEye(icon)
+      );
+      const iconEye = screen.getAllByTestId("icon-eye");
+      const modale = document.getElementById('modaleFile')
+      $.fn.modal = jest.fn(() => modale.classList.add("show"));
+      iconEye.forEach((icon) => {
+        icon.addEventListener("click", handleClickIconEye(icon));
+        userEvent.click(icon);
+        expect(handleClickIconEye).toHaveBeenCalled();
+      });
+      expect(modale.getAttribute("class")).toContain("show");
     })
   })
 
@@ -184,8 +178,7 @@ describe("Given I am connected as an employee", () => {
       window.localStorage.setItem(
         "user",
         JSON.stringify({
-          type: "Admin",
-          email: "a@a",
+          type: "Employee",
         })
       );
       const root = document.createElement("div");
