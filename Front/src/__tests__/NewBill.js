@@ -96,12 +96,11 @@ describe("Given I am connected as an employee", () => {
       expect(screen.getByText("Le fichier doit être de type .jpg, .jpeg ou .png")).toBeTruthy();
     });
   });
-
 });
 
 describe("Given I am connected as an Employee", () => {
   let root;
-
+  
   beforeEach(() => {
     root = document.createElement("div");
     root.setAttribute("id", "root");
@@ -183,10 +182,9 @@ describe("When an error occurs on API", () => {
 
     document.body.innerHTML = BillsUI({ error: 'Erreur 404' })
     await new Promise(process.nextTick)
-    const message = await screen.getByText(/Erreur 404/)
+    const message = screen.getByText(/Erreur 404/)
     expect(message).toBeTruthy()
   })
-
 
   test("fetches messages from an API and fails with 500 message error", async () => {
     mockStore.bills.mockImplementationOnce(() => {
@@ -199,7 +197,7 @@ describe("When an error occurs on API", () => {
 
     document.body.innerHTML = BillsUI({ error: 'Erreur 500' })
     await new Promise(process.nextTick)
-    const message = await screen.getByText(/Erreur 500/)
+    const message = screen.getByText(/Erreur 500/)
     expect(message).toBeTruthy()
   })
 })
