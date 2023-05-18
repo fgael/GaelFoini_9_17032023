@@ -39,7 +39,7 @@ export default class NewBill {
     } else {
       const errorMsg = document.querySelector('.error-message');
       if (errorMsg) {
-        errorMsg.parentNode.removeChild(errorMsg);
+        errorMsg.remove();
       }
     }
 
