@@ -67,6 +67,7 @@ export default ({ data: bills, loading, error }) => {
                 <th>Montant</th>
                 <th>Statut</th>
                 <th>Actions</th>
+                <th>Nom du fichier</th>
               </tr>
           </thead>
           <tbody data-testid="tbody">
