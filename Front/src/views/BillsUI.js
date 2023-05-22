@@ -15,6 +15,7 @@ const row = (bill) => {
       <td>
         ${Actions(bill.fileUrl)}
       </td>
+      <td>${bill.fileName}</td>
     </tr>
     `)
   }
